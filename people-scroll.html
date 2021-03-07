@@ -92,7 +92,7 @@
                     checkOvered();
                 }
             },
-            15
+            20
         );
         document.body.addEventListener('wheel', (event) => {
             fixedX -= (event.deltaX == 0) ? -event.deltaY : event.deltaX;
@@ -107,7 +107,7 @@
             }, 1000);
             event.preventDefault();
             return false;
-        });
+        }, {passive: false});
     </script>
   </body>
 </html>

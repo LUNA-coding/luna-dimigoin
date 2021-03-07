@@ -141,6 +141,8 @@
             justMovedClearTimeoutId = setTimeout(() => {
                 justMoved = false;
             }, 1000);
+            event.preventDefault();
+            return false;
         });
     </script>
   </body>

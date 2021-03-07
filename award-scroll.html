@@ -131,7 +131,22 @@
             15
         );
         document.body.addEventListener('wheel', (event) => {
-            fixedY += (event.deltaX == 0) ? -event.deltaY : event.deltaX;
+            var delta = (event.deltaX == 0) ? event.deltaY : event.deltaX;
+            if (Math.abs(delta) >= 10) {
+                var alpha = 1 * delta / Math.abs(delta);
+                var gamma = alpha;
+                step = () => {
+                    fixedY -= gamma;
+                    container.style.top = fixedY + 'px';
+                    checkOvered();
+                    gamma += alpha;
+                    if (Math.abs(gamma) < Math.abs(delta/10)) {
+                        setTimeout(step, 5);
+                    }
+                }
+                setTimeout(step, 5);
+            }
+            fixedY -= delta;
             container.style.top = fixedY + 'px';
             checkOvered();
             justMoved = true;

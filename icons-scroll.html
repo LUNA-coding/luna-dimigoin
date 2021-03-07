@@ -100,9 +100,9 @@
             justMovedClearTimeoutId = setTimeout(() => {
                 justMoved = false;
             }, 1000);
-            // event.preventDefault();
+            event.preventDefault();
             return false;
-        });
+        }, {passive: false});
     </script>
   </body>
 </html>

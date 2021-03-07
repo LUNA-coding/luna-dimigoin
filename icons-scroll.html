@@ -7,6 +7,7 @@
     <title>Document</title>
     <style>
         body {
+            margin: 0;
             overflow: hidden;
             white-space: nowrap;
             -ms-overflow-style: none; /* IE and Edge */
@@ -23,7 +24,6 @@
             width: 100px;
             align-self: center;
             padding: 0 1rem;
-            margin: 1rem 0;
         }
     </style>
   </head>
@@ -53,15 +53,14 @@
     </div>
     <script>
         container = document.getElementsByClassName('container')[0];
-        containerW = container.offsetWidth;
         items = document.getElementsByClassName('scroll-item');
-        itemW = items[0].offsetWidth;  // item의 width는 동일해야 함
+        containerW = container.offsetWidth;
+        itemW = containerW / items.length;  // item의 width는 동일해야 함
         fixedX = 0;
         justMoved = false;
         justMovedClearTimeoutId = null;
         checkOvered = () => {
             // 아이콘이 왼쪽을 넘어갔는지 확인
-            console.log(fixedX, itemW);
             while (-fixedX >= itemW) {
                 let ele = items[0].cloneNode();
                 container.appendChild(ele);
@@ -74,7 +73,6 @@
             while (fixedX >= 0) {
                 let ele = items[items.length-1].cloneNode();
                 container.insertBefore(ele, container.firstChild);
-
                 items[items.length-1].remove();
                 items = document.getElementsByClassName('scroll-item');
                 fixedX -= itemW;
@@ -92,7 +90,7 @@
             15
         );
         document.body.addEventListener('wheel', (event) => {
-            fixedX -= event.deltaX;
+            fixedX -= (event.deltaX == 0) ? -event.deltaY : event.deltaX;
             container.style.left = fixedX + 'px';
             checkOvered();
             justMoved = true;
